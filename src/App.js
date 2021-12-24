@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import Headers from './components/Headers';
+import axios from 'axios'
+import {useState, useEffect} from 'react'
+import Characters from './components/Characters';
 
 function App() {
+  const [items, setItems] =useState([])
+
+  useEffect( () => {
+    const fetchItems = async () => {
+     const res = await axios('https://thronesapi.com/api/v2/Characters')
+     setItems(res.data)
+    }
+
+    fetchItems()
+
+      
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+    <Headers />
+    <Characters items = {items} />
     </div>
   );
 }
